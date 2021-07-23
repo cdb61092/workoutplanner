@@ -14,7 +14,7 @@ type Props = {
 
 const Day = ({ day }: Props) => {
   // const [exercises, setExercises] = useState<Exercises[]>();
-  const { register } = useFormContext();
+  // const { register } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     name: "plan.day.exercises",
   });

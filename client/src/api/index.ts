@@ -1,26 +1,35 @@
 import axios, { AxiosRequestConfig } from "axios";
-import qs from "qs";
+import { SyntheticEvent } from "react";
 
-const url = "http://localhost:5000/workouts";
-const registerURL = "http://localhost:5000/api/users/signup";
-const loginURL = "http://localhost:5000/api/users/login";
+const createWorkoutURL = "http://localhost:5000/api/workouts";
+const registerURL = "http://localhost:5000/api/auth/register";
+const loginURL = "http://localhost:5000/api/auth/login";
 
 type User = {
   username: string;
   password: string;
 };
 
-export const fetchWorkouts = () => axios.get(url);
+export const fetchWorkouts = () => axios.get(createWorkoutURL);
 
-export const createWorkout = (newWorkout: object) =>
-  axios.post(url, newWorkout);
+export const createWorkout = async (newWorkout: object) => {
+  try {
+    await axios
+      .post(createWorkoutURL, newWorkout)
+      .then((res) => console.log(res));
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-export const registerUser = (user: User) => {
+export const registerUser = async (e: SyntheticEvent, user: User) => {
+  e.preventDefault();
+
   const options: AxiosRequestConfig = {
     url: registerURL,
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    data: qs.stringify(user),
+    headers: { "Content-Type": "application/json" },
+    data: JSON.stringify(user),
   };
   axios(options)
     .then((res) => {
